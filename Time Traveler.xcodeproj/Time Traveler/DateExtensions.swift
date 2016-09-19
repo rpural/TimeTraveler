@@ -8,7 +8,7 @@
 import Foundation
 
 // Define methods that allow us to add and subtract
-// NSDateComponents instances
+// DateComponents instances
 
 // The addition and subtraction code is nearly the same,
 // so we've factored it out into this method
@@ -68,9 +68,7 @@ prefix func -(components: DateComponents) -> DateComponents {
 // Date + component
 func +(lhs: Date, rhs: DateComponents) -> Date
 {
-    return (Calendar.current as NSCalendar).date(byAdding: rhs,
-                                                               to: lhs,
-                                                               options: [])!
+    return (Calendar.current as Calendar).date(byAdding: rhs, to: lhs)!
 }
 
 // Component + date
@@ -166,12 +164,18 @@ extension Int {
 
 extension Date {
     
+    func normalize() -> Date {
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components([ .year, .month, .day ] , from: self)
+        return calendar.date(from: components)!
+    }
+    
     func diff(_ date : Date) -> DateComponents {
         let result : DateComponents
         let normSdate = self.normalize()
         let normEdate = date.normalize()
-        if (((Calendar.current as NSCalendar).components(NSCalendar.Unit.day, from: normSdate, to: normEdate, options: NSCalendar.Options.matchFirst)).day! > 0) {
-            result = (Calendar.current as NSCalendar).components([.year, .month, .day], from: normSdate, to: normEdate, options: NSCalendar.Options.matchFirst)
+        if (normSdate.compare(normEdate) == .orderedAscending) {
+                result = (Calendar.current as NSCalendar).components([.year, .month, .day], from: normSdate, to: normEdate, options: NSCalendar.Options.matchFirst)
         } else {
             result = (Calendar.current as NSCalendar).components([.year, .month, .day], from: normEdate, to: normSdate, options: NSCalendar.Options.matchFirst)
         }
@@ -215,10 +219,4 @@ extension Date {
         return ""
     }
   
-  func normalize() -> Date {
-    let calendar = Calendar.current
-    let components = (calendar as NSCalendar).components([ .year, .month, .day ] , from: self)
-    return calendar.date(from: components)!
-  }
-    
 }
