@@ -17,6 +17,6 @@ then the new date won't change.
 The second tab at the bottom was added to allow two dates to be given, with the difference between the two dates
 displayed as the result.
 
-This app was used as the basis of the September presentation for the Rochester k-Lug meeting. More about k-Lug
+This app was used as the basis of the September 2016 presentation for the Rochester k-Lug meeting. More about k-Lug
 can be found at http://www.k-lug.org/Main_Page
  
